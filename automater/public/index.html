@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internships</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .internship {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 10px;
+            padding: 10px;
+        }
+        .internship img {
+            max-width: 100px;
+            height: auto;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>Internships</h1>
+    <div id="internships"></div>
+
+    <script>
+        async function fetchInternships() {
+            try {
+                const response = await axios.get('http://localhost:3000/api/internships');
+                const internships = response.data;
+
+                const container = document.getElementById('internships');
+                container.innerHTML = internships.map(internship => `
+                    <div class="internship">
+                        <h2>${internship.title}</h2>
+                        <p><strong>Company:</strong> ${internship.company}</p>
+                        <p><strong>Location:</strong> ${internship.location}</p>
+                        <img src="${internship.image}" alt="${internship.title}">
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error fetching internships:', error);
+            }
+        }
+
+        fetchInternships();
+    </script>
+</body>
+</html>
